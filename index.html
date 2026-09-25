@@ -9,7 +9,7 @@
 <meta name="description" content="Программный комплекс GeoForX: гибридная ГИС-платформа для лесной отрасли. Автоматизация отвода и таксации лесосек, расчет эксплуатационной площади, аналитическая обработка геоданных и экспорт для ФГИС ЛК.">
 <meta name="keywords" content="фгис лк, лесная декларация, технологическая карта разработки лесосеки, отвод лесосек, таксационное описание, таксация лесосек, эксплуатационная площадь, магистральный волок, пасечные волока, погрузочные площадки, расчет объема древесины, геоинформационная система, лесное хозяйство, картография, геодезия, мск, wgs 84, gpkg, jsonb, полигон лесосеки">
 
-<!-- 🌐 Open Graph разметка для Telegram / WhatsApp (Превью ссылки) -->
+<!-- 🌐 Open Graph разметка для Telegram / WhatsApp -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://geoforx.ru">
 <meta property="og:title" content="GeoForX — Лесная ГИС нового поколения">
@@ -23,34 +23,40 @@ body, html {
 height: 100%;
 width: 100%;
 overflow: hidden;
-background-color: #0b0f12; /* Глубокий темный фон */
+background-color: #0b0f12;
 }
 
-/* 💻 ПОЛНОЭКРАННЫЙ ФОН ДЛЯ МОНИТОРОВ КОМПЬЮТЕРОВ */
+/* 💻 РЕЖИМ ДЛЯ КОМПЬЮТЕРОВ: Твой 4K баннер на весь экран */
 .forest-bg {
 position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
+top: 0; left: 0; width: 100%; height: 100%;
 background: url('forest.jpg') no-repeat center center fixed;
 background-size: cover;
-z-index: 1;
+z-index: 2;
 animation: fadeIn 1.2s ease-in-out;
 }
 
-/* 📱 УМНАЯ МОБИЛЬНАЯ АДАПТАЦИЯ (Экраны до 768px) */
+/* Запасной размытый слой (для ПК не виден, сработает на мобилках) */
+.blur-bg { display: none; }
+
+/* 📱 ПРОФЕССИОНАЛЬНАЯ АДАПТАЦИЯ ПОД СМАРТФОНЫ (Экраны до 768px) */
 @media (max-width: 768px) {
+/* 1. Основной баннер сжимаем так, чтобы значок и надпись влезли целиком */
 .forest-bg {
-background-image: url('forest.jpg');
-background-repeat: no-repeat;
-/* Сдвигаем 4K-кадр так, чтобы надпись отцентрировалась, а лес заполнил края */
-background-position: 53% 50%;
-/* Увеличиваем масштаб фона под вертикальный формат дисплея */
-background-size: auto 100vh;
+background-size: contain;
+z-index: 3;
 background-attachment: scroll;
-width: 100vw;
-height: 100vh;
+}
+
+/* 2. Включаем задний размытый фон леса, убирающий пустые полосы */
+.blur-bg {
+display: block;
+position: absolute;
+top: -5%; left: -5%; width: 110%; height: 110%; /* Чуть больше экрана, чтобы скрыть края при размытии */
+background: url('forest.jpg') no-repeat center center;
+background-size: cover;
+filter: blur(20px) brightness(0.4); /* Красивое размытие и затемнение */
+z-index: 1;
 }
 }
 
@@ -74,7 +80,10 @@ border: 0;
 </head>
 <body>
 
-<!-- Визуальная часть сайта: твоя 4K-плашка с лесом и надписью -->
+<!-- Размытый задний план для мобилок (убирает полосы) -->
+<div class="blur-bg"></div>
+
+<!-- Твой оригинальный 4K-баннер со значком и логотипом -->
 <div class="forest-bg"></div>
 
 <!-- 📊 Академическое научно-техническое описание для индексации Яндексом (Скрыто от людей) -->
