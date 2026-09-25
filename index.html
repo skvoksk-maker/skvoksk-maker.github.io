@@ -5,11 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>GeoForX — геоинформационная система для лесной отрасли</title>
-  <meta name="description" content="GeoForX — разрабатываемая геоинформационная система для задач лесной отрасли. Сайт и приложение находятся в разработке.">
+  <meta
+    name="description"
+    content="GeoForX — разрабатываемая геоинформационная система для задач лесной отрасли. Приложение находится в разработке."
+  >
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="GeoForX — геоинформационная система для лесной отрасли">
-  <meta property="og:description" content="GeoForX находится в разработке. Следите за запуском проекта.">
+  <meta
+    property="og:description"
+    content="Геоинформационная система GeoForX находится в разработке."
+  >
   <meta property="og:image" content="https://geoforx.ru/forest-bg.png">
 
   <style>
@@ -21,10 +27,11 @@
 
     html {
       min-height: 100%;
-      background: #17251f;
+      background-color: #17241f;
     }
 
     body {
+      min-width: 280px;
       min-height: 100vh;
       min-height: 100svh;
       margin: 0;
@@ -32,37 +39,33 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    /* Фотография заполняет экран. На узких экранах её края могут обрезаться,
-       но логотип теперь отдельный и поэтому не обрежется. */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      background: #17251f url("forest-bg.png") center center / cover no-repeat;
-    }
-
-    /* Затемнение помогает читать текст на светлых участках фотографии. */
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      background: linear-gradient(
-        180deg,
-        rgba(8, 20, 17, .18),
-        rgba(8, 20, 17, .40) 42%,
-        rgba(8, 20, 17, .72)
-      );
-    }
-
-    main {
+    .page {
+      position: relative;
+      display: grid;
       min-height: 100vh;
       min-height: 100svh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 48px 20px;
+      place-items: center;
+      overflow: hidden;
+      padding: 40px 20px;
+      isolation: isolate;
+
+      /*
+        Фотография заполняет экран.
+        На телефоне её края могут обрезаться, но логотип — нет:
+        он расположен отдельно от фона.
+      */
+      background-color: #17241f;
+      background-image:
+        linear-gradient(
+          180deg,
+          rgba(9, 20, 17, 0.12) 0%,
+          rgba(9, 20, 17, 0.22) 48%,
+          rgba(9, 20, 17, 0.55) 100%
+        ),
+        url("forest-bg.png");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
     }
 
     .content {
@@ -71,115 +74,63 @@
     }
 
     .brand {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: clamp(14px, 3vw, 36px);
-      margin-bottom: 30px;
+      margin: 0 auto 28px;
+      line-height: 0;
     }
 
-    .brand-icon {
+    .brand img {
       display: block;
-      width: clamp(100px, 18vw, 210px);
+      width: min(100%, 1000px);
       height: auto;
-      flex: none;
-      filter: drop-shadow(0 5px 12px rgba(0, 0, 0, .35));
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(54px, 9vw, 120px);
-      font-weight: 800;
-      letter-spacing: -.065em;
-      line-height: 1;
-      white-space: nowrap;
-      text-shadow: 0 5px 20px rgba(0, 0, 0, .45);
-    }
-
-    h1 span {
-      color: #acd18f;
+      margin: 0 auto;
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.35));
     }
 
     .description {
       max-width: 680px;
-      margin: 0 auto 20px;
-      font-size: clamp(16px, 2vw, 21px);
+      margin: 0 auto 18px;
+      font-size: clamp(17px, 2vw, 22px);
       line-height: 1.5;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
     }
 
     .status {
       display: inline-block;
       margin: 0;
       padding: 9px 16px;
-      border: 1px solid rgba(255, 255, 255, .55);
+      border: 1px solid rgba(255, 255, 255, 0.55);
       border-radius: 999px;
-      background: rgba(10, 27, 21, .48);
+      background-color: rgba(12, 27, 21, 0.55);
       font-size: 14px;
-      letter-spacing: .02em;
+      line-height: 1.4;
     }
 
     @media (max-width: 700px) {
+      .page {
+        padding: 32px 16px;
+      }
+
       .brand {
-        flex-direction: column;
-        gap: 12px;
         margin-bottom: 24px;
       }
 
-      .brand-icon {
-        width: clamp(105px, 30vw, 150px);
-      }
-
-      h1 {
-        font-size: clamp(46px, 13vw, 76px);
+      .brand img {
+        width: 100%;
       }
 
       .description {
-        max-width: 420px;
+        max-width: 400px;
       }
     }
   </style>
 </head>
 
 <body>
-  <main>
+  <main class="page">
     <div class="content">
-      <div class="brand">
-        <!-- Значок выполнен в SVG: остаётся чётким на любом экране. -->
-        <svg class="brand-icon"
-             viewBox="0 0 210 180"
-             xmlns="http://www.w3.org/2000/svg"
-             aria-hidden="true"
-             focusable="false">
-
-          <!-- Геометка -->
-          <path fill="#494b4e"
-                d="M105 2c-26 0-47 21-47 47 0 34 47 84 47 84s47-50 47-84c0-26-21-47-47-47zm0 29a18 18 0 1 1 0 36 18 18 0 0 1 0-36z"/>
-
-          <!-- Левое дерево -->
-          <path fill="#acd18f"
-                d="m34 56-22 32h11L4 113h54L39 88h11L34 56z"/>
-
-          <!-- Правое дерево -->
-          <path fill="#acd18f"
-                d="m176 56-22 32h11l-19 25h54l-19-25h11l-16-32z"/>
-
-          <!-- Волны / линии карты -->
-          <path d="M11 134c25-14 43-14 69 1
-                   M16 151c22-12 40-12 62 1
-                   M22 167c19-10 34-10 50 1"
-                fill="none"
-                stroke="#fff"
-                stroke-width="11"
-                stroke-linecap="round"/>
-
-          <!-- X -->
-          <path d="m120 130 19 0 22 24 22-24h19l-31 35 32 0v15h-45l-19-21-19 21h-20l30-34z"
-                fill="#494b4e"/>
-        </svg>
-
-        <h1>GeoFor<span>X</span></h1>
-      </div>
+      <h1 class="brand">
+        <img src="logo.png" alt="GeoForX">
+      </h1>
 
       <p class="description">
         Разрабатываем геоинформационную систему для задач лесной отрасли.
