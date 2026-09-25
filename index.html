@@ -1,108 +1,192 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- 🎯 Продвинутые ИТР и ГИС мета-теги для Яндекса и Google -->
-<title>GeoForX — Геоинформационная система лесоустроительного проектирования и отвода лесосек</title>
-<meta name="description" content="Программный комплекс GeoForX: гибридная ГИС-платформа для лесной отрасли. Автоматизация отвода и таксации лесосек, расчет эксплуатационной площади, аналитическая обработка геоданных и экспорт для ФГИС ЛК.">
-<meta name="keywords" content="фгис лк, лесная декларация, технологическая карта разработки лесосеки, отвод лесосек, таксационное описание, таксация лесосек, эксплуатационная площадь, магистральный волок, пасечные волока, погрузочные площадки, расчет объема древесины, геоинформационная система, лесное хозяйство, картография, геодезия, мск, wgs 84, gpkg, jsonb, полигон лесосеки">
+  <title>GeoForX — геоинформационная система для лесной отрасли</title>
+  <meta name="description" content="GeoForX — разрабатываемая геоинформационная система для задач лесной отрасли. Сайт и приложение находятся в разработке.">
 
-<!-- 🌐 Open Graph разметка для Telegram / WhatsApp -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://geoforx.ru">
-<meta property="og:title" content="GeoForX — Лесная ГИС нового поколения">
-<meta property="og:description" content="Автоматизация отвода, таксации лесосек и генерации технологических карт. Интеграция с ФГИС ЛК.">
-<meta property="og:image" content="https://geoforx.ruforest.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="GeoForX — геоинформационная система для лесной отрасли">
+  <meta property="og:description" content="GeoForX находится в разработке. Следите за запуском проекта.">
+  <meta property="og:image" content="https://geoforx.ru/forest-bg.png">
 
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
 
-body, html {
-height: 100%;
-width: 100%;
-overflow: hidden;
-background-color: #0b0f12;
-}
+    html {
+      min-height: 100%;
+      background: #17251f;
+    }
 
-/* 💻 РЕЖИМ ДЛЯ КОМПЬЮТЕРОВ: Твой 4K баннер на весь экран */
-.forest-bg {
-position: absolute;
-top: 0; left: 0; width: 100%; height: 100%;
-background: url('forest.jpg') no-repeat center center fixed;
-background-size: cover;
-z-index: 2;
-animation: fadeIn 1.2s ease-in-out;
-}
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      margin: 0;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-/* Запасной размытый слой (для ПК не виден, сработает на мобилках) */
-.blur-bg { display: none; }
+    /* Фотография заполняет экран. На узких экранах её края могут обрезаться,
+       но логотип теперь отдельный и поэтому не обрежется. */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: #17251f url("forest-bg.png") center center / cover no-repeat;
+    }
 
-/* 📱 ПРОФЕССИОНАЛЬНАЯ АДАПТАЦИЯ ПОД СМАРТФОНЫ (Экраны до 768px) */
-@media (max-width: 768px) {
-/* 1. Основной баннер сжимаем так, чтобы значок и надпись влезли целиком */
-.forest-bg {
-background-size: contain;
-z-index: 3;
-background-attachment: scroll;
-}
+    /* Затемнение помогает читать текст на светлых участках фотографии. */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(
+        180deg,
+        rgba(8, 20, 17, .18),
+        rgba(8, 20, 17, .40) 42%,
+        rgba(8, 20, 17, .72)
+      );
+    }
 
-/* 2. Включаем задний размытый фон леса, убирающий пустые полосы */
-.blur-bg {
-display: block;
-position: absolute;
-top: -5%; left: -5%; width: 110%; height: 110%; /* Чуть больше экрана, чтобы скрыть края при размытии */
-background: url('forest.jpg') no-repeat center center;
-background-size: cover;
-filter: blur(20px) brightness(0.4); /* Красивое размытие и затемнение */
-z-index: 1;
-}
-}
+    main {
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 20px;
+    }
 
-@keyframes fadeIn {
-from { opacity: 0; }
-to { opacity: 1; }
-}
+    .content {
+      width: min(100%, 1100px);
+      text-align: center;
+    }
 
-/* 🔍 ИЗОЛИРОВАННЫЙ БЛОК ДЛЯ ПОИСКОВЫХ РОБОТОВ (SEO) */
-.seo-text {
-position: absolute;
-width: 1px;
-height: 1px;
-padding: 0;
-margin: -1px;
-overflow: hidden;
-clip: rect(0, 0, 0, 0);
-border: 0;
-}
-</style>
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(14px, 3vw, 36px);
+      margin-bottom: 30px;
+    }
+
+    .brand-icon {
+      display: block;
+      width: clamp(100px, 18vw, 210px);
+      height: auto;
+      flex: none;
+      filter: drop-shadow(0 5px 12px rgba(0, 0, 0, .35));
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(54px, 9vw, 120px);
+      font-weight: 800;
+      letter-spacing: -.065em;
+      line-height: 1;
+      white-space: nowrap;
+      text-shadow: 0 5px 20px rgba(0, 0, 0, .45);
+    }
+
+    h1 span {
+      color: #acd18f;
+    }
+
+    .description {
+      max-width: 680px;
+      margin: 0 auto 20px;
+      font-size: clamp(16px, 2vw, 21px);
+      line-height: 1.5;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, .75);
+    }
+
+    .status {
+      display: inline-block;
+      margin: 0;
+      padding: 9px 16px;
+      border: 1px solid rgba(255, 255, 255, .55);
+      border-radius: 999px;
+      background: rgba(10, 27, 21, .48);
+      font-size: 14px;
+      letter-spacing: .02em;
+    }
+
+    @media (max-width: 700px) {
+      .brand {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .brand-icon {
+        width: clamp(105px, 30vw, 150px);
+      }
+
+      h1 {
+        font-size: clamp(46px, 13vw, 76px);
+      }
+
+      .description {
+        max-width: 420px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <main>
+    <div class="content">
+      <div class="brand">
+        <!-- Значок выполнен в SVG: остаётся чётким на любом экране. -->
+        <svg class="brand-icon"
+             viewBox="0 0 210 180"
+             xmlns="http://www.w3.org/2000/svg"
+             aria-hidden="true"
+             focusable="false">
 
-<!-- Размытый задний план для мобилок (убирает полосы) -->
-<div class="blur-bg"></div>
+          <!-- Геометка -->
+          <path fill="#494b4e"
+                d="M105 2c-26 0-47 21-47 47 0 34 47 84 47 84s47-50 47-84c0-26-21-47-47-47zm0 29a18 18 0 1 1 0 36 18 18 0 0 1 0-36z"/>
 
-<!-- Твой оригинальный 4K-баннер со значком и логотипом -->
-<div class="forest-bg"></div>
+          <!-- Левое дерево -->
+          <path fill="#acd18f"
+                d="m34 56-22 32h11L4 113h54L39 88h11L34 56z"/>
 
-<!-- 📊 Академическое научно-техническое описание для индексации Яндексом (Скрыто от людей) -->
-<div class="seo-text" aria-hidden="true">
-<h1>Программный комплекс GeoForX — Специализированная геоинформационная система лесоустроительного проектирования</h1>
-<p>
-<strong>GeoForX</strong> представляет собой веб-приложение профессионального уровня, разработанное для картографического обеспечения, таксации и отвода лесосек. Архитектура платформы спроектирована для прецизионного пространственного моделирования объектов лесного фонда и оперативного формирования отраслевой документации в строгом соответствии с требованиями государственного регулятора.
-</p>
-<h2>Функциональные возможности и модули ГИС GeoForX:</h2>
-<ul>
-<li><strong>Векторизация и топология:</strong> Инструменты создания и сквозного редактирования пространственных полигонов лесосек, обеспечивающие корректное сопряжение векторов с границами существующего лесного фонда.</li>
-<li><strong>Математико-картографический анализ площади:</strong> Алгоритмы автоматического расчета общей площади лесосеки, прецизионное выделение эксплуатационной площади и фильтрация неэксплуатационных площадей (выделов, не подлежащих разработке, защитных полос и нелесных земель).</li>
-<li><strong>Таксационный модуль:</strong> Формирование комплексного таксационного описания лесных насаждений, математический расчет объема древесины на лесосеке на основе данных о породном составе, полноте, бонитете и средних высотах древостоя.</li>
-<li><strong>Проектирование лесозаготовительной инфраструктуры:</strong> Автоматическое картографическое моделирование элементов транспортно-технологической сети лесосек, включая пространственную разметку магистральных волоков, пасечных волоков и оптимальное позиционирование погрузочных площадок.</li>
-<li><strong>Реляционно-документная структура данных:</strong> Организация хранения структурированных атрибутивных данных в формате GeoPackage (GPKG) с интеграцией бинарных таблиц JSONB. Обеспечивает строгую типизацию лесохозяйственных параметров, мгновенную индексацию и высокоскоростной сквозной поиск информации по любым таксационным атрибутам на уровне базы данных.</li>
-<li><strong>Генерация отчетной документации:</strong> Интегрированный экспорт данных для автоматического формирования пакета документов, включая лесную декларацию и технологическую карту разработки лесосеки.</li>
-<li><strong>Трансформация пространственных данных:</strong> Встроенные математические матрицы для автоматического пересчета плоских прямоугольных координат местных систем (МСК) в геоцентрическую систему координат WGS-84 (EPSG:4326) для корректной интеграции с Федеральной государственной информационной системой лесного комплекса (ФГИС ЛК).</li>
-</ul>
-</div>
+          <!-- Правое дерево -->
+          <path fill="#acd18f"
+                d="m176 56-22 32h11l-19 25h54l-19-25h11l-16-32z"/>
 
+          <!-- Волны / линии карты -->
+          <path d="M11 134c25-14 43-14 69 1
+                   M16 151c22-12 40-12 62 1
+                   M22 167c19-10 34-10 50 1"
+                fill="none"
+                stroke="#fff"
+                stroke-width="11"
+                stroke-linecap="round"/>
+
+          <!-- X -->
+          <path d="m120 130 19 0 22 24 22-24h19l-31 35 32 0v15h-45l-19-21-19 21h-20l30-34z"
+                fill="#494b4e"/>
+        </svg>
+
+        <h1>GeoFor<span>X</span></h1>
+      </div>
+
+      <p class="description">
+        Разрабатываем геоинформационную систему для задач лесной отрасли.
+      </p>
+
+      <p class="status">Приложение находится в разработке</p>
+    </div>
+  </main>
 </body>
 </html>
